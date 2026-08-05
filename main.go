@@ -1,15 +1,8 @@
 package main
 
-import (
-	"fmt"
-	"net/http"
-)
+import "net/http"
 
 func main() {
-	http.HandleFunc("/", homeHandler)
+	http.Handle("/", http.FileServer(http.Dir("web")))
 	http.ListenAndServe(":8080", nil)
-}
-
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Server is running")
 }
