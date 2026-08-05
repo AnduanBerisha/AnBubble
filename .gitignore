@@ -1,0 +1,14 @@
+# Go executables
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+bin/
+
+# system files
+.DS_Store
+.vscode/
+.idea/
