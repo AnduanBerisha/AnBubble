@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"encoding/json"
 	"net/http"
 )
@@ -20,6 +22,8 @@ func (s *Server) handleSend(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Bad Request", http.StatusBadRequest)
 		return
 	}
+
+	msg.ID = generateID()
 
 	// Adding the message to memory
 	s.AddMessage(msg)
@@ -41,4 +45,12 @@ func (s *Server) handleMessages(w http.ResponseWriter, r *http.Request) {
 	messages := s.GetMessages()
 
 	json.NewEncoder(w).Encode(messages)
+}
+
+func generateID() string {
+	bytes := make([]byte, 8) // Allocate an 8 byte buffer
+
+	rand.Read(bytes)
+
+	return hex.EncodeToString(bytes)
 }
