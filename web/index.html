@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-        <h1>AnBubble's Exceptional Front-End Page</h1>
-    </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnBubble Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>AnBubble Chat</h1>
+  </header>
+
+  <main id="messages"></main>
+
+  <form id="composer">
+    <input id="text-input" type="text" maxlength="2000" placeholder="Write a message…" autocomplete="off" required>
+    <button type="submit">Send</button>
+  </form>
+
+  <script src="app.js"></script>
+</body>
 </html>

@@ -5,6 +5,8 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"net/http"
+	"strings"
+	"unicode/utf8"
 )
 
 func (s *Server) handleSend(w http.ResponseWriter, r *http.Request) {
@@ -17,9 +19,25 @@ func (s *Server) handleSend(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// // Decode incoming JSON
+	// limits size of body to avoid spam
+	r.Body = http.MaxBytesReader(w, r.Body, 64*1024)
+
+	// Decode incoming JSON
 	if err := json.NewDecoder(r.Body).Decode(&msg); err != nil {
 		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
+	msg.Sender = strings.TrimSpace(msg.Sender)
+	msg.Text = strings.TrimSpace(msg.Text)
+
+	if msg.Sender == "" || utf8.RuneCountInString(msg.Sender) > 25 {
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+
+	if msg.Text == "" || utf8.RuneCountInString(msg.Text) > 2000 {
+		http.Error(w, "Bad request", http.StatusBadRequest)
 		return
 	}
 
